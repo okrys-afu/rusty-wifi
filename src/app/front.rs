@@ -6,8 +6,8 @@ use egui_plot::{Line, Plot, PlotBounds};
 use crate::wifi::Band;
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        egui::CentralPanel::default().show_inside(ui, |ui| {
             self.show_top_panel(ui);
             self.show_plot(ui);
         });
@@ -56,7 +56,7 @@ impl App {
 
             if let Ok(wifis) = &self.aps.try_lock() {
                 for w in wifis.iter() {
-                    plot_ui.line(Line::new(w.points().clone()).name(format!(
+                    plot_ui.line(Line::new("wtf", w.points().clone()).name(format!(
                         "SSID: {}\n\
                         BSID: {}\n\
                         CHAN: {}\n\

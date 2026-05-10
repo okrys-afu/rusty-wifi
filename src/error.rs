@@ -16,14 +16,15 @@ pub enum AppError {
 
 impl AppError {
     pub fn show(&self) {
-        match native_dialog::MessageDialog::new()
+        match native_dialog::DialogBuilder::message()
             .set_title("Error!")
-            .set_text(&format!(
+            .set_text(format!(
                 "Eror: \"{}\". Caused by: \"{}\"",
                 self,
                 self.source().unwrap()
             ))
-            .show_alert()
+            .alert()
+            .show()
         {
             Ok(()) => (),
             Err(e) => println!("{}", e),

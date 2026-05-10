@@ -6,7 +6,7 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio::task::JoinHandle;
 
-use native_dialog::FileDialog;
+use native_dialog::DialogBuilder;
 
 use crate::error::AppError;
 use crate::wifi::{AccessPoint, Band};
@@ -77,10 +77,11 @@ impl App {
 
     async fn open_file() -> Result<Option<Vec<AccessPointGUI>>, AppError> {
         let file_join = tokio::spawn(async move {
-            FileDialog::new()
-                .add_filter("json", &["json"])
+            DialogBuilder::file()
+                .add_filter("json", ["json"])
                 .set_location("~")
-                .show_open_single_file()
+                .open_single_file()
+                .show()
         });
 
         if let Some(path) = file_join.await?? {
@@ -108,12 +109,13 @@ impl App {
         });
     }
 
-    async fn save_file<'a>(aps_p: Arc<Mutex<Vec<AccessPointGUI>>>) -> Result<(), AppError> {
+    async fn save_file(aps_p: Arc<Mutex<Vec<AccessPointGUI>>>) -> Result<(), AppError> {
         let file_join = tokio::spawn(async move {
-            FileDialog::new()
-                .add_filter("json", &["json"])
+            DialogBuilder::file()
+                .add_filter("json", ["json"])
                 .set_location("~")
-                .show_save_single_file()
+                .save_single_file()
+                .show()
         });
 
         let serder_aps = tokio::spawn(async move {

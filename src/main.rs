@@ -10,6 +10,6 @@ async fn main() -> Result<(), eframe::Error> {
     eframe::run_native(
         "Rusty Wifi",
         options,
-        Box::new(|_cc| Box::new(app::App::new())),
+        Box::new(|_cc| Result::Ok(Box::new(app::App::new()))),
     )
 }
