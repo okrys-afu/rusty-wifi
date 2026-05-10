@@ -60,10 +60,12 @@ impl App {
                         "SSID: {}\n\
                         BSID: {}\n\
                         CHAN: {}\n\
+                        BANDWIDTH: {}\n\
                         SIGNAL: {}",
                         w.raw().ssid(),
                         w.raw().bssid(),
                         w.raw().channel(),
+                        w.raw().bandwidth(),
                         w.raw().signal()
                     )));
                 }

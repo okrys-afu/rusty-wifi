@@ -57,7 +57,7 @@ impl AccessPoint {
         let nmcli_raw = Command::new("nmcli")
             .arg("-t")
             .arg("-f")
-            .arg("SSID,CHAN,SIGNAL,BSSID")
+            .arg("SSID,CHAN,SIGNAL,BSSID,BANDWIDTH")
             .arg("-m")
             .arg("multiline")
             .arg("device")
@@ -103,8 +103,7 @@ impl AccessPoint {
                     "SSID" => current.ssid = v.parse().unwrap_or("ERROR".to_string()),
                     "CHAN" => current.channel = v.parse().unwrap_or(0),
                     "SIGNAL" => current.signal = v.parse().unwrap_or(0),
-                    // TODO: When 1.46 out check if it is indeed BW
-                    "BW" => current.bandwidth = v.parse().unwrap_or(0),
+                    "BANDWIDTH" => current.bandwidth = v[..v.len() - 4].parse().unwrap_or(20),
                     "BSSID" => current.bssid = v.parse().unwrap_or("ERROR".to_string()),
                     x => eprintln!("Unknown parameter: {x}"),
                 }
